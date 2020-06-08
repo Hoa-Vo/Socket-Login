@@ -32,36 +32,8 @@ def activeServer(serverAddres, serverPort):
             connectionSocket.close()
         except IOError:
             pass
-# Gửi file login
 
 
-def sendLoginForm(client):
-    contentHeader = "Content-Type: text/html\r\n"
-    httpHeader = "HTTP/1.1 200 OK\r\n"
-    f = open("login.html")
-    data = f.read()
-    client.send(httpHeader.encode())
-    client.send(contentHeader.encode())
-    client.send("\r\n".encode())
-    for i in range(0, len(data)):
-        client.send(data[i].encode())
-    client.send("\r\n".encode())
-    print("File sent.")
-# Gửi file info
-
-
-def sendInfoFile(client):
-    contentHeader = "Content-Type: text/html\r\n"
-    httpHeader = "HTTP/1.1 200 OK\r\n"
-    f = open("info.html")
-    data = f.read()
-    client.send(httpHeader.encode())
-    client.send(contentHeader.encode())
-    client.send("\r\n".encode())
-    for i in range(0, len(data)):
-        client.send(data[i].encode())
-    client.send("\r\n".encode())
-    print("File sent.")
 
 
 def getUsernameAndPassword(string):

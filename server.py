@@ -59,9 +59,15 @@ def activeServer(serverAddres, serverPort):
             splitArr = string.split("\n")
             string = splitArr[len(splitArr)-1]
             temp = getUsernameAndPassword(string)
-            checkUsernameAndPassword(temp[0], temp[1])
-            print(temp[0]+" "+temp[1])
-            send_html_file(connectionSocket, "info.html")
+
+
+            true_login_info = checkUsernameAndPassword(temp[0], temp[1])
+            
+            if(true_login_info):
+                send_html_file(connectionSocket, "info.html")
+            else:
+                send_html_file(connectionSocket, "404.html")
+            
             connectionSocket.close()
         
 
@@ -77,8 +83,11 @@ def getUsernameAndPassword(string):
     return [usn[1], psw[1]]
 
 
-def checkUsernameAndPassword(usn, psw):
-    pass
+def checkUsernameAndPassword(usn, psw) -> bool:
+    if usn == "admin" and psw == "admin":
+        return True
+    else:
+        return False
 
 
 serverAddress = "127.0.0.1"

@@ -7,31 +7,24 @@ def send_html_file(socket, filename):
         http_header1 = "HTTP/1.1 200 OK\r\n"
         http_header2 = "Content-Type: text/html\r\n"
         file_stream = open(filename)
-
         sending_data = file_stream.read()
-
         print("Find found.")
         socket.send(http_header1.encode())
         socket.send(http_header2.encode())
         socket.send("\r\n".encode())
-
         for i in range(0, len(sending_data)):
             socket.send(sending_data[i].encode())
-
         socket.send("\r\n".encode())
         print("File sent: " + filename)
     except IOError:  # khi không tìm thấy file
         print("Can't find the file, send 404")
         file_stream = open("404.html")
         sending_data = file_stream.read()
-
         http_error_header = "HTTP/1.1 404 Not Found\r\n"
         socket.send(http_error_header.encode())
         socket.send("\r\n".encode())
-
         for i in range(0, len(sending_data)):
             socket.send(sending_data[i].encode())
-
         socket.send("\r\n".encode())
         print("File sent: " + "404.html")
 
@@ -61,9 +54,7 @@ def activeServer(serverAddress, serverPort):
             splitArr = string.split("\n")
             string = splitArr[len(splitArr)-1]
             temp = getUsernameAndPassword(string)
-
             true_login_info = checkUsernameAndPassword(temp[0], temp[1])
-
             if(true_login_info):
                 redirect(connectionSocket, "/info.html")
             else:
@@ -93,6 +84,7 @@ def redirect(socket, url):
     socket.send(http_header1.encode())
     socket.send(location.encode())
     socket.send("\r\n".encode())
+    print("direct to "+url)
 
 
 serverAddress = "127.0.0.1"

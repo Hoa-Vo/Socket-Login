@@ -37,7 +37,6 @@ def send_html_file(socket, filename):
 
 
 def activeServer(serverAddress, serverPort):
-    count = 0
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serverSocket.bind((serverAddress, serverPort))
     serverSocket.listen(2)
@@ -49,9 +48,8 @@ def activeServer(serverAddress, serverPort):
         massages = massage.split(' ')
         method = massages[0]
         if(method == "GET"):
-            if(count == 0):
+            if(massages[1] == "/"):
                 redirect(connectionSocket, "/login.html")
-                count = 1
             if(massages[1] == "/login.html"):
                 send_html_file(connectionSocket, "login.html")
             if(massages[1] == "/info.html"):

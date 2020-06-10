@@ -89,12 +89,12 @@ def checkUsernameAndPassword(usn, psw) -> bool:
         return False
 
 
-def redirect(client, url):
+def redirect(socket, url):
     http_header1 = "HTTP/1.1 302 Found\r\n"
     location = "Location: "+url+"\r\n"
-    client.send(http_header1.encode())
-    client.send(location.encode())
-    client.send("\r\n".encode())
+    socket.send(http_header1.encode())
+    socket.send(location.encode())
+    socket.send("\r\n".encode())
 
 
 serverAddress = "127.0.0.1"

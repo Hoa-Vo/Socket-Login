@@ -6,7 +6,7 @@ def send_html_file(socket, filename):
     try:
         http_header1 = "HTTP/1.1 200 OK\r\n"
         http_header2 = "Content-Type: text/html\r\n"
-        file_stream = open(filename)
+        file_stream = open(filename,encoding="utf8")
         sending_data = file_stream.read()
         print("Find found.")
         socket.send(http_header1.encode())
@@ -18,10 +18,12 @@ def send_html_file(socket, filename):
         print("File sent: " + filename)
     except IOError:  # khi không tìm thấy file
         print("Can't find the file, send 404")
-        file_stream = open("404.html")
+        file_stream = open("404.html",encoding="utf8")
         sending_data = file_stream.read()
         http_error_header = "HTTP/1.1 404 Not Found\r\n"
+        http_header2 = "Content-Type: text/html\r\n"
         socket.send(http_error_header.encode())
+        socket.send(http_header2.encode())
         socket.send("\r\n".encode())
         for i in range(0, len(sending_data)):
             socket.send(sending_data[i].encode())
@@ -48,7 +50,7 @@ def activeServer(serverAddress, serverPort):
             if(massages[1] == "/info.html"):
                 send_html_file(connectionSocket, "info.html")
             if(massages[1] == "/404.html"):
-                send_html_file(connectionSocket, "404.html")
+                send_html_file(connectionSocket, "")
         elif(method == "POST"):
             string = massages.pop()
             splitArr = string.split("\n")

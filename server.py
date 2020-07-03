@@ -6,7 +6,7 @@ def send_html_file(socket, filename):
     try:
         http_header1 = "HTTP/1.1 200 OK\r\n"
         http_header2 = "Content-Type: text/html\r\n"
-        file_stream = open(filename,encoding="utf8")
+        file_stream = open(filename, encoding="utf8")
         sending_data = file_stream.read()
         print("Find found.")
         socket.send(http_header1.encode())
@@ -18,7 +18,7 @@ def send_html_file(socket, filename):
         print("File sent: " + filename)
     except IOError:  # khi không tìm thấy file
         print("Can't find the file, send 404")
-        file_stream = open("404.html",encoding="utf8")
+        file_stream = open("404.html", encoding="utf8")
         sending_data = file_stream.read()
         http_error_header = "HTTP/1.1 404 Not Found\r\n"
         http_header2 = "Content-Type: text/html\r\n"
@@ -36,6 +36,7 @@ def activeServer(serverAddress, serverPort):
     serverSocket.bind((serverAddress, serverPort))
     serverSocket.listen(2)
     print("Ready, waiting for request")
+    true_login_info = False
     while True:
         connectionSocket, connectionAddress = serverSocket.accept()
         print("Received a request from Address: {0}".format(connectionAddress))
@@ -45,12 +46,15 @@ def activeServer(serverAddress, serverPort):
         if(method == "GET"):
             if(massages[1] == "/"):
                 redirect(connectionSocket, "/login.html")
-            if(massages[1] == "/login.html"):
+            elif(massages[1] == "/login.html"):
                 send_html_file(connectionSocket, "login.html")
-            if(massages[1] == "/info.html"):
+                true_login_info = False
+            elif(massages[1] == "/info.html" and true_login_info):
                 send_html_file(connectionSocket, "info.html")
-            if(massages[1] == "/404.html"):
+            elif(massages[1] == "/404.html"):
                 send_html_file(connectionSocket, "")
+            else:
+                redirect(connectionSocket, "/login.html")
         elif(method == "POST"):
             string = massages.pop()
             splitArr = string.split("\n")

@@ -16,7 +16,7 @@ def send_html_file(socket, filename):
             socket.send(sending_data[i].encode())
         socket.send("\r\n".encode())
         print("File sent: " + filename)
-    except IOError:  # khi không tìm thấy file
+    except IOError:  # khi khong tim thay file
         print("Can't find the file, send 404")
         file_stream = open("404.html", encoding="utf8")
         sending_data = file_stream.read()
@@ -30,7 +30,7 @@ def send_html_file(socket, filename):
         socket.send("\r\n".encode())
         print("File sent: " + "404.html")
 
-
+#ham chay server chinh
 def activeServer(serverAddress, serverPort):
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serverSocket.bind((serverAddress, serverPort))
@@ -38,7 +38,7 @@ def activeServer(serverAddress, serverPort):
     print("Ready, waiting for request")
     true_login_info = False
     while True:
-        connectionSocket, connectionAddress = serverSocket.accept()
+        connectionSocket, connectionAddress = serverSocket.accept() 
         print("Received a request from Address: {0}".format(connectionAddress))
         massage = connectionSocket.recv(2048).decode()
         massages = massage.split(' ')
@@ -67,7 +67,7 @@ def activeServer(serverAddress, serverPort):
                 redirect(connectionSocket, "/404.html")
             connectionSocket.close()
 
-
+# tach ten va mat khau ma nguoi dung gui len thong qua HTTP massage
 def getUsernameAndPassword(string):
     temp = string.split('&')
     usnPart = temp[0]
@@ -76,7 +76,7 @@ def getUsernameAndPassword(string):
     psw = passWordPart.split('=')
     return [usn[1], psw[1]]
 
-
+# -> bool, kiem tra username va mat khau
 def checkUsernameAndPassword(usn, psw) -> bool:
     if usn == "admin" and psw == "admin":
         return True
@@ -93,6 +93,6 @@ def redirect(socket, url):
     print("direct to "+url)
 
 
-serverAddress = "127.0.0.1"
-serverPort = 80
+serverAddress = "127.0.0.1"  #dia chi loopback ve local
+serverPort = 80 #port mac dinh cua webserver ma trinh duyet se ket noi
 activeServer(serverAddress, serverPort)

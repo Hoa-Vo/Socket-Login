@@ -65,7 +65,7 @@ def activeServer(serverAddress, serverPort):
                 redirect(connectionSocket, "/info.html")
             else:
                 redirect(connectionSocket, "/404.html")
-            connectionSocket.close()
+        connectionSocket.close()
 
 # tach ten va mat khau ma nguoi dung gui len thong qua HTTP massage
 def getUsernameAndPassword(string):
